@@ -21,5 +21,5 @@ class TodoTask(models.Model):
     @api.multi
     def write(self, values):
         if 'active' not in values:
-            vals['active'] = True
+            values['active'] = True
         return super(TodoTask, self).write(values)

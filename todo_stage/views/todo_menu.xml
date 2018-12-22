@@ -5,4 +5,36 @@
             {'search_default_filter_not_done': True}
         </field>
     </record>
+
+    <act_window id="action_todo_stage"
+                name="To-Do Task Stages"
+                res_model="todo.task.stage"
+                view_mode="tree,form"
+                target="current"
+                context="{'default_state': 'open'}"
+                domain="[]"
+                limit="80" />
+
+    <menuitem id="todo_app.menu_todo_task"
+              name="To-Do" action="" />
+
+    <menuitem id="menu_todo_task_view"
+              name="Tasks"
+              sequence="10"
+              parent="todo_app.menu_todo_task"
+              groups="base.group_system" />
+    <menuitem id="menu_todo_config"
+              name="Configuration"
+              sequence="100"
+              parent="todo_app.menu_todo_task"
+              groups="base.group_system" />
+    <menuitem id="menu_todo_task_stage"
+              name="Stages"
+              parent="menu_todo_config"
+              action="action_todo_stage" />
+
+    <record id="todo_app.action_todo_task"
+            model="ir.actions.act_window">
+        <field name="view_mode">tree,form,calendar,graph,pivot</field>
+    </record>
 </odoo>

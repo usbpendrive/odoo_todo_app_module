@@ -58,3 +58,30 @@ class TodoTask(models.Model):
         for todo in self:
             if len(todo.name) < 5:
                 raise ValidationError('Title must have 5 chars')
+
+    @api.onchange('user_id')
+    def onchange_user_id(self):
+        if not self.user_id:
+            self.team_ids = None
+            return {
+                'warning': {
+                    'title': 'Responsible User Reset',
+                    'message': 'Please choose a new team'
+                }
+            }
+
+    @api.model
+    def create(self, vals):
+        new_record = super(TodoTask, self).create(vals)
+        return new_record
+
+    @api.multi
+    def write(self, vals):
+        super(TodoTask, self).write(vals)
+        return True
+
+    user_todo_count = fields.Integer('User To-Do Count', compute='_compute_user_todo_count')
+
+    def _compute_user_todo_count(self):
+        for task in self:
+            task.user_todo_count = task.search_count([('user_id', '=', task.user_id.id)])

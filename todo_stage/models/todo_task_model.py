@@ -80,8 +80,22 @@ class TodoTask(models.Model):
         super(TodoTask, self).write(vals)
         return True
 
-    user_todo_count = fields.Integer('User To-Do Count', compute='_compute_user_todo_count')
-
     def _compute_user_todo_count(self):
         for task in self:
             task.user_todo_count = task.search_count([('user_id', '=', task.user_id.id)])
+
+    user_todo_count = fields.Integer('User To-Do Count', compute='_compute_user_todo_count')
+
+    color = fields.Integer('Color Index')
+    priority = fields.Selection(
+        [('0', 'Low'),
+         ('1', 'Normal'),
+         ('2', 'High')],
+        'Priority',
+        default='1')
+    kanban_state = fields.Selection(
+        [('normal', 'In Progress'),
+         ('blocked', 'Blocked'),
+         ('done', 'Ready for next stage')],
+        'Kanban State',
+        default='normal')

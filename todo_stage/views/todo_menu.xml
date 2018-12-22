@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="todo_app.action_todo_task" model="ir.actions.act_window">
+        <field name="context">
+            {'search_default_filter_not_done': True}
+        </field>
+    </record>
+</odoo>
